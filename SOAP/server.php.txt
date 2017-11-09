@@ -1,0 +1,16 @@
+<?php
+ 
+class UserFacade {
+	public function getUser() {
+ 
+                $sName = 'Felipe';
+                $sName .= ' Ide';
+ 
+                return $sName;
+        }
+}
+ 
+$oSoapServer = new SoapServer('service.wsdl');
+$oSoapServer->setClass("UserFacade");
+$oSoapServer->handle();
+?>

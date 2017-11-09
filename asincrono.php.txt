@@ -1,0 +1,34 @@
+<?php
+use GuzzleHttp\Pool;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+
+$client = new Client();
+
+$ceps = ['17516670', '17515320', '17501480', '17500002'];
+
+$requests = function ($ceps) use ($client) {
+    $uri = 'https://viacep.com.br/ws/';
+    foreach($ceps as $cep){
+	yield function() use ($client, $uri, $cep) {
+	    return $client->getAsync($uri.$cep.'/json');
+	};
+    }
+};
+
+$pool = new Pool($client, $requests($ceps), [
+    'concurrency' => 2,
+    'fulfilled' => function ($response, $index) {
+        var_dump($response);
+    },
+    'rejected' => function ($reason, $index) {
+        var_dump($reason);
+    },
+]);
+
+$promise = $pool->promise();
+
+// Force the pool of requests to complete.
+$promise->wait();
+
+?>

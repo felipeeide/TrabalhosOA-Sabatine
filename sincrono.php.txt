@@ -1,0 +1,15 @@
+<?php
+use GuzzleHttp\Pool;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+
+$client = new Client();
+
+$ceps = ['17516670', '17515320', '17501480', '17500002'];
+
+foreach($ceps as $cep){
+ $response = $client->get('https://viacep.com.br/ws/'.$cep.'/json/');
+ var_dump($response);
+}
+
+?>

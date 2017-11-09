@@ -1,0 +1,8 @@
+<?php
+ 
+ini_set("soap.wsdl_cache_enabled", "0");
+ 
+$oSoapClient = new SoapClient("http://localhost/service.wsdl");
+ 
+var_dump($oSoapClient->getUser());
+?>
